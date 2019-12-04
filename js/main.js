@@ -1,6 +1,6 @@
 // Chuck your data into the depths of the localStorage variable...
 function save(src) {
-	localStorage.setItem('infbetasave', btoa(JSON.stringify(game)));
+	localStorage.setItem('inf_ngp3_buttons', btoa(JSON.stringify(game)));
 	popup('Game Saved', 'lightblue');
 	if (game.as) {
 		if (src != 'man') setTimeout(save, game.asintv * 1000);
@@ -26,13 +26,13 @@ function wipe(nc) {
 
 // Retrieve your data from the depths of the localStorage variable...
 function load() {
-	if (localStorage.getItem('infbetasave') != undefined && localStorage.getItem('infbetasave') != 'undefined' && localStorage.getItem('infbetasave') != null) {
+	if (localStorage.getItem('inf_ngp3_buttons') != undefined && localStorage.getItem('inf_ngp3_buttons') != 'undefined' && localStorage.getItem('inf_ngp3_buttons') != null) {
 		clearAll();
 		try {
-			game = new Game(JSON.parse(atob(localStorage.getItem('infbetasave'))));
+			game = new Game(JSON.parse(atob(localStorage.getItem('inf_ngp3_buttons'))));
 		} catch(e) {
 			console.warn('Outdated save, updating');
-			game = new Game(JSON.parse(localStorage.getItem('infbetasave')));
+			game = new Game(JSON.parse(localStorage.getItem('inf_ngp3_buttons')));
 		}
 		save();
 		return true;

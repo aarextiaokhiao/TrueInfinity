@@ -178,11 +178,10 @@ function updateTree() {
 				let temp = [...loc];
 				temp.pop();
 				let tndiv = document.getElementById('tn' + j(temp));
-				
 				if (j(game.treeLoc) == j(temp)) {
 					let ly = game.prestige[j(standardiseArray(game.treeAtLoc(loc).map(JSON.parse)))]
 					let r = createDiv(tndiv.id, 'lr' + JSON.stringify(temp), 'r');
-					r.innerHTML = ly.str_loc == joa([0]) ? `You have ${f(ly.points)} antimatter<br>` : `You have ${f(ly.points)} ${getNode(temp)} points and ${f(ly.power)} ${getNode(temp)} power<br>`;
+					r.innerHTML = ly.str_loc == joa([0]) ? `You have ${f(ly.points)} antimatter<br>` : `You have ${f(ly.points)} ${getNodeCurrency(temp)} and ${f(ly.power)} ${getNode(temp)} power<br>`;
 					
 					let ma = createElem('lr' + JSON.stringify(temp), 'lma' + JSON.stringify(temp), 'button');
 					ma.innerHTML = 'Max All [M]';

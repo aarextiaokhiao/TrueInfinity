@@ -35,7 +35,7 @@ let achievements = [
 	new Achivement('You Should Probably Use Hyper E Now', amgt('eeeee308'), 'Reach E308#5 antimatter', 'hype'),
 	new Achivement('I\'m Confused as to Why You\'re Still Playing', amgt('eeeee10000'), 'Reach E10000#5 antimatter', 'confused'),
 	new Achivement('Eternal Suffering', lu([2]), 'Unlock Eternity', 'eternal', 'white'),
-	new Achivement('What Just Happened?', lu([7]), 'Unlock Identity', 'wjh'),
+	new Achivement('What Just Happened?', lu([7]), 'Unlock Ethereal', 'wjh'),
 	new Achivement('This Makes Things Easier', lu([6]), 'Unlock Automation', 'auto'),
 	new Achivement('Automation Inception', () => game.autoauto, 'Purchase Auto-Automation', 'aa'),
 	new Achivement('Why Wasn\'t This in Infinite Layers?', lu([499]), 'Unlock Bulk Prestige', 'why'),

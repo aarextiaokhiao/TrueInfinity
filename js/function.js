@@ -128,6 +128,14 @@ function setElem(id, v) {
 	}
 }
 
+function setClass(id, v) {
+	if (document.getElementById(id)) {
+		if (document.getElementById(id).className != v) {
+			document.getElementById(id).className = v;
+		}
+	}
+}
+
 function toggleas() {
 	game.as = !game.as;
 	save();
@@ -175,7 +183,9 @@ function getPrestigeGain(num) {
 function getPrestigeGain2(num, diff) {
 	let x = getPrestigeGain(num);
 	if (!x.eq(0)) {
-		return game.autoauto ? x : n(10).pow(x.logBase(diff)).pow(3);
+		let y = x.logBase(diff)
+		if (!y.isFinite()) y = n(1)
+		return game.autoauto ? x : n(10).pow(y).pow(3);
 	}
 	return n(0);
 }
@@ -348,23 +358,33 @@ function getMult(loc) {
 const NAMES = [
 	'infinity', 
 	'eternity', 
-	'reality', 
-	'equality', 
-	'affinity', 
-	'celerity',
-	'identity', 
-	'vitality', 
-	'immunity', 
-	'atrocity', 
-	'immensity', 
-	'severity', 
-	'fatality', 
-	'insanity', 
-	'unfunity',
-	'calamity', 
-	'futility', 
-	'finality', 
-	'unity'
+	'quantum', 
+	'ghostify', 
+	'hadronize', 
+	'stellar',
+	'ethereal', 
+	'universal', 
+	'fractalize', 
+	'omniversal', 
+	'abstraction', 
+	'beyond', 
+	'singularity'
+];
+
+const CURRENCY_NAMES = [
+	'infinity points', 
+	'eternity points', 
+	'quarks', 
+	'ghost particles', 
+	'antiquarks', 
+	'dwarf stars',
+	'starlight', 
+	'protoverses', 
+	'archverses', 
+	'infiniteverses', 
+	'transcendentems', 
+	'reality foams', 
+	'singularity particles'
 ];
 
 const LEVEL_NAMES = [
@@ -389,9 +409,38 @@ function getLayerName(loc) {
 			if (loc[0].gt(NAMES.length)) {
 				str = 'p' + (f(loc[0].add(1)));
 			} else {
-				str = NAMES[loc[0].sub(1).mod(NAMES.length).toNumber()];
+				str = NAMES[loc[0].sub(1).toNumber()];
 			}
 		} else str = 'dimensions';
+	}
+	return str;
+}
+
+function getCurrencyName(loc) {
+	let names = LEVEL_NAMES.slice(0, game.um.length).reverse();
+	let str = '';
+	for (let i = 0; i < loc.length - 1; i++) {
+		if (loc[i].gt(0)) {
+			if (loc[i].eq(1)) {
+				str += names[i];
+			} else {
+				str += names[i] + '^' + f(loc[i]);
+			}
+			str += '-';
+		}
+	}
+	let temp = [...loc];
+	let last = temp.pop();
+	for (let i of temp) {
+		if (i != 0) {
+			last = last.add(1);
+			break;
+		}
+	}
+	if (last.gt(NAMES.length)) {
+		str += 'p' + (f(last.add(1))) + ' points';
+	} else {
+		str += CURRENCY_NAMES[last.sub(1).toNumber()];
 	}
 	return str;
 }
@@ -443,6 +492,10 @@ function getNodeName(loc) {
 function getNode(tree_loc) {
 	if (tree_loc.length == 0) return 'prestige tree';
 	return getNodeName(getNodeLoc(tree_loc));
+}
+
+function getNodeCurrency(tree_loc) {
+	return getCurrencyName(getNodeLoc(tree_loc))
 }
 
 function maxAll(loc) {
@@ -625,10 +678,12 @@ function themeTo(theme) {
 		document.getElementById('theme').href = '';
 		document.getElementById('sb').href = '';
 		document.getElementById('ss').href = '';
+		document.getElementById('prestige').href = '';
 	} else {
 		document.getElementById('theme').href = game.theme;
 		document.getElementById('sb').href = 'css/styled_buttons.css';
 		document.getElementById('ss').href = 'css/stylesheet.css';
+		document.getElementById('prestige').href = 'css/prestige_buttons.css';
 	}
 }
 

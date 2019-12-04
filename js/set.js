@@ -3,10 +3,10 @@ function setElems() {
 		let p = game.prestige[p2];
 		if (p.str_loc != joa([0])) {
 			setElem('r' + JSON.stringify(p.loc), `
-				You have ${f(p.points)} ${getLayerName(p.loc)} points and ${f(p.power)} ${getLayerName(p.loc)} power
+				You have ${f(p.points)} ${getCurrencyName(p.loc)} and ${f(p.power)} ${getLayerName(p.loc)} power
 			`);
 			setElem('r2' + JSON.stringify(p.loc), `
-				You have ${f(p.points)} ${getLayerName(p.loc)} points and ${f(p.power)} ${getLayerName(p.loc)} power
+				You have ${f(p.points)} ${getCurrencyName(p.loc)} and ${f(p.power)} ${getLayerName(p.loc)} power
 			`);
 		} else {
 			setElem('r' + JSON.stringify(p.loc), `
@@ -22,13 +22,18 @@ function setElems() {
 			hide('pb' + JSON.stringify(p.loc));
 		}
 		if (game.state == 0 || p.str_loc == JSON.stringify(game.max_layer)) {
+			if (p.loc.length == 1 && p.loc[0].lt(NAMES.length)) setClass("pb" + JSON.stringify(p.loc), "pb sbb prestige-" + Math.round(p.loc[0].toNumber()))
+			else setClass("pb" + JSON.stringify(p.loc), "pb sbb blue")
 			setElem('pb' + JSON.stringify(p.loc), `
-				Prestige for: ${f(getPrestigeGain(p.points).mul(10))} ${getLayerName(p.next_loc)} points ${p.str_loc == JSON.stringify(game.max_layer) ? '[P]' : ''}
+				Prestige for: ${f(getPrestigeGain(p.points).mul(10))} ${getCurrencyName(p.next_loc)} ${p.str_loc == JSON.stringify(game.max_layer) ? '[P]' : ''}
 			`);
 		} else if (game.state == 1){
-			let diff = game.max_layer[0] - p.loc[0];
+			let max = game.max_layer[0]
+			if (max.sub(1).lt(NAMES.length)) setClass("pb" + JSON.stringify(p.loc), "pb sbb prestige-" + Math.round(max.sub(1).toNumber()))
+			else setClass("pb" + JSON.stringify(p.loc), "pb sbb blue")
+			let diff = max - p.loc[0];
 			setElem('pb' + JSON.stringify(p.loc), `
-				Prestige for: ${f(getPrestigeGain2(p.points, diff).mul(10))} ${getLayerName(game.max_layer)} points
+				Prestige for: ${f(getPrestigeGain2(p.points, diff).mul(10))} ${getCurrencyName(game.max_layer)}
 			`);
 		}
 		for (let g of p.dims) {
@@ -175,7 +180,7 @@ function setElems() {
 		let p = game.prestige[p2];
 		setElem('ama' + JSON.stringify(p.loc), `
 			Unlock Auto Max All<br>
-			Cost: ${f(auto_max_cost(p.loc))} ${JSON.stringify(p.loc) == '[0]' ? 'Antimatter' : getLayerName(p.loc).replace(/(^|[\s-])\S/g, function (match) {return match.toUpperCase()}) + ' Points'}
+			Cost: ${f(auto_max_cost(p.loc))} ${JSON.stringify(p.loc) == joa([0]) ? 'antimatter' : getCurrencyName(p.loc)}
 		`);
 		if (p.is_auto_max) {
 			if (document.getElementById('ama' + JSON.stringify(p.loc))) {
@@ -197,7 +202,7 @@ function setElems() {
 		
 		setElem('ap' + JSON.stringify(p.loc), `
 			Unlock Auto Prestige Gain<br>
-			Cost: ${f(auto_prestige_cost(p.loc))} ${JSON.stringify(p.loc) == '[0]' ? 'Antimatter' : getLayerName(p.loc).replace(/(^|[\s-])\S/g, function (match) {return match.toUpperCase()}) + ' Points'}
+			Cost: ${f(auto_prestige_cost(p.loc))} ${JSON.stringify(p.loc) == joa([0]) ? 'antimatter' : getCurrencyName(p.loc)}
 		`);
 		if (p.is_auto_prestige) {
 			if (document.getElementById('ap' + JSON.stringify(p.loc))) {

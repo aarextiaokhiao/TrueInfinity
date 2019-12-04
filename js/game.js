@@ -246,22 +246,21 @@ class Layer {
 			if (this.dims.length >= 3 && this.dims[this.dims.length - 1].dim.gte(10)) {
 				let x = this.dims[2].dim;
 				if (this.points.log10().lt(n(10).pow(x))) {
-				let vals = [n(10).pow(x),x.pow(10), x.pow(2), x.pow(1.5), x.pow(1.1), x.mul(1.1), x.add(1000), x.add(100), x.add(10), x.add(1)]
-				for (let i = 0; i <= vals.length; i++) {
-					if (i == vals.length) {
-						var rd = this.dims.slice(0).reverse();
-						for (let d of rd) {
-							d.buy();
-							d.buyMax();
+					let vals = [x.pow(10), x.pow(2), x.pow(1.5), x.pow(1.1), x.mul(1.1), x.add(1000), x.add(100), x.add(10), x.add(1)]
+					for (let i = 0; i <= vals.length; i++) {
+						if (i == vals.length) {
+							var rd = this.dims.slice(0).reverse();
+							for (let d of rd) {
+								d.buy();
+								d.buyMax();
+							}
+						} else if (this.dims[1].dim.gt(15) && new Dimension(vals[i], this.loc, 0, 0).afford) {
+							this.dims.push(new Dimension(vals[i], this.loc, 1, 1));
+							i = vals.length;
 						}
-					} else if (this.dims[1].dim.gt(15) && new Dimension(vals[i], this.loc, 0, 0).afford) {
-						this.dims.push(new Dimension(vals[i], this.loc, 1, 1));
-						i = vals.length;
 					}
-				}
-				}
-					this.dims.push(new Dimension(this.points.log10(), this.loc, 1, 1));
-				} else {
+				} else this.dims.push(new Dimension(this.points.log10(), this.loc, 1, 1))
+			} else {
 				var rd = this.dims.slice(0).reverse();
 				for (let d of rd) {
 					d.buy();
